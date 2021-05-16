@@ -6,6 +6,8 @@ stages:
 
 # создадим job с именем eslint
 eslint:
+  # укажем нужный Docker образw
+  image: node:14.17.0-alpine
   # добавим ее в стадию test
   stage: test
   # укажем переменные окружения. В отличие от GitHub, в GitLab
@@ -14,12 +16,6 @@ eslint:
     NODE_VERSION: 14.17.0
   # секция script описывает шаги
   script:
-    # установка NVM
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    # активируем NVM
-    - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-    # установка Node.js
-    - nvm install
     # установка зависимостей
     - npm install
     # запуск ESLint
@@ -27,6 +23,8 @@ eslint:
 
 # создадим job с именем prettier
 prettier:
+  # укажем нужный Docker образw
+  image: node:14.17.0-alpine
   # добавим ее в стадию test
   stage: test
   # укажем переменные окружения. В отличие от GitHub, в GitLab
@@ -35,12 +33,6 @@ prettier:
     NODE_VERSION: 14.17.0
   # секция script описывает шаги
   script:
-    # установка NVM
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    # активируем NVM
-    - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-    # установка Node.js
-    - nvm install
     # установка зависимостей
     - npm install
     # запуск Prettier
