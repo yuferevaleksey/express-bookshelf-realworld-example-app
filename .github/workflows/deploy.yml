@@ -3,6 +3,7 @@ name: Deploy
 on:
   push:
     branches: [main]
+
   # специальное событие, которое происходит при ручном вызове workflow
   workflow_dispatch:
 
@@ -13,10 +14,18 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup SSH
         run: |
+          # создаем директорию для ключа
           mkdir -p ~/.ssh
+          # выводим содержимое нашей переменной окружения в файл удалив перенос строки в конце
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | > ~/.ssh/id_rsa
+          # ставим нужные безопасные права
           chmod 700 ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa
+          # Добавляет отпечаток сервера
+          ssh-keyscan -H "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Copy files to the server
         # заливаем файлы при помощи rsync
         run: |
@@ -25,14 +34,7 @@ jobs:
           --exclude .gitignore \
           --exclude .git \
           . deploy@172.104.151.230:~/realworld/
-        # через переменные окружения передаем SSH ключ
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNONN_HOSTS }}
       # job для перезапуска приложения при помощи pm2
       - name: Restart the application
         run: |
-          ssh deploy@172.104.151.230 "pushd ~/realworld && npm install && popd && pm2 restart realworld"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNONN_HOSTS }}
+          ssh deploy@172.104.151.230 "pushd ~/realworld && npm install && pm2 restart realworld && popd"
