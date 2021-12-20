@@ -11,10 +11,10 @@ jobs:
         run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
       - name: Active NVM
         run: export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-      - name: Install node.js
+      - name: Install NODE.js
         env: 
           NODE_VERSION: 14.17.0
-        run: nvm install $NODE_VERSION
+        run: export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use && nvm install $NODE_VERSION
       - name: Install dependencies
         run: npm install
       - name: Lint Sorce code with ESLint
