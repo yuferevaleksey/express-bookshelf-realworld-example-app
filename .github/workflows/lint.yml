@@ -10,7 +10,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       - name: Cache node.js modules
-      - uses: actions/cache@v2
+        uses: actions/cache@v2
         env:
           cache-name: npm-${{ hashFiles('package-locak.json') }}
         with:
@@ -31,7 +31,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       - name: Cache node.js modules
-      - uses: actions/cache@v2
+        uses: actions/cache@v2
         env:
           cache-name: npm-${{ hashFiles('package-locak.json') }}
         with:
