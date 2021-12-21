@@ -1,0 +1,22 @@
+name: eslint
+
+on: [push]
+jobs:
+  eslint: 
+    name: ESLint
+    runs-on: node: 14.17.0-alpine
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Lint Sorce code with ESLint
+        run: npm run lint
+prettier: 
+    name: Prettier
+    runs-on: node: 14.17.0-alpine
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Check source code with prettier
+        run: npm run check:format
