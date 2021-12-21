@@ -22,4 +22,3 @@ prettier:
     - eval "[ -f .nvmrc ] && nvm install"
     - npm i
     - npm run check:format
-`
