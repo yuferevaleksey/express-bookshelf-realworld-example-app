@@ -4,7 +4,8 @@ on: [push]
 jobs:
   eslint: 
     name: ESLint
-    runs-on: node:14.17.0-alpine
+    container:
+      image: node:14.17.0-alpine
     steps: 
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -14,7 +15,8 @@ jobs:
 
   prettier: 
     name: Prettier
-    runs-on: node:14.17.0-alpine
+    container:
+      image: node:14.17.0-alpine
     steps: 
       - uses: actions/checkout@v2
       - name: Install dependencies
