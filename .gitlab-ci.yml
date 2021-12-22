@@ -45,4 +45,9 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - scp . deploy@165.227.160.94:~/realworld
+    - rsync -a --progress --human-readable --delete
+      --exclude-from '.gitignore'
+      --exclude .gitignore
+      --exclude .git
+      . deploy@165.227.160.94:~/realworld
+    - ssh deploy@165.227.160.94 "pushd ~/realworld && npm install  && pm2 restart realworld && prod"
