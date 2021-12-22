@@ -15,7 +15,7 @@ cache:
 
 eslint:
   extends:
-    - default-cache
+    - .default-cache
   image: node:14.17.0-alpine
   stage: lint
   variables:
@@ -26,7 +26,7 @@ eslint:
 
 prettier:
   extends:
-    - default-cache
+    - .default-cache
   image: node:14.17.0-alpine
   stage: lint
   variables:
