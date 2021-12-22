@@ -28,3 +28,13 @@ prettier:
   script:
     - npm i
     - npm run check:format
+
+deploy:
+  image: node:14.17.0-alpine
+  stage: deploy
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - scp . deploy@165.227.160.94:~/realworld
